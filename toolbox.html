@@ -1,0 +1,1795 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>实用工具箱</title>
+  <style>
+    /* ===== 全局重置与基础样式 ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+      background: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ===== 页面容器 ===== */
+    .app-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      padding: 20px 0 0 0;
+      text-align: center;
+      user-select: none;
+    }
+
+    .app-header h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    /* ===== Tab 导航栏 ===== */
+    .tab-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 8px 8px 0 0;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 8px;
+    }
+
+    .tab-btn {
+      flex: 1 1 auto;
+      padding: 10px 12px;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      font-weight: 600;
+      border-bottom-color: #fff;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* ===== 功能面板 ===== */
+    .panel {
+      display: none;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      padding: 24px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .panel-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+
+    .panel-desc {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 18px;
+      line-height: 1.5;
+    }
+
+    /* ===== 输入区样式 ===== */
+    .input-group {
+      margin-bottom: 16px;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 6px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 12px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: "Consolas", "Monaco", "Microsoft YaHei", monospace;
+      line-height: 1.6;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      color: #333;
+      background: #fafbfc;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+      background: #fff;
+    }
+
+    textarea::placeholder {
+      color: #bbb;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      padding: 8px 12px;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      color: #333;
+      background: #fafbfc;
+    }
+
+    input[type="text"]:focus,
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+      background: #fff;
+    }
+
+    /* ===== 操作按钮区 ===== */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+    }
+
+    .btn-primary:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: #f0f2f5;
+      color: #555;
+      border: 1px solid #ddd;
+    }
+
+    .btn-secondary:hover {
+      background: #e8eaed;
+      border-color: #ccc;
+    }
+
+    .btn-success {
+      background: #52c41a;
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: #45a817;
+      box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-success:active {
+      transform: translateY(0);
+    }
+
+    /* ===== 预览区样式 ===== */
+    .preview-area {
+      background: #fafbfc;
+      border: 1.5px solid #e8e8e8;
+      border-radius: 8px;
+      padding: 16px;
+      max-height: 400px;
+      overflow-y: auto;
+      font-size: 13px;
+      font-family: "Consolas", "Monaco", "Microsoft YaHei", monospace;
+      line-height: 1.7;
+      color: #444;
+    }
+
+    .preview-area:empty::before {
+      content: "预览区：操作后结果将在此显示";
+      color: #bbb;
+      font-style: italic;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    .preview-area .count-info {
+      font-size: 13px;
+      color: #667eea;
+      font-weight: 500;
+      margin-bottom: 8px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+    }
+
+    .preview-area .item {
+      padding: 3px 0;
+      border-bottom: 1px dashed #eee;
+    }
+
+    .preview-area .item:last-child {
+      border-bottom: none;
+    }
+
+    /* ===== 重命名预览对比样式 ===== */
+    .rename-pair {
+      display: flex;
+      align-items: center;
+      padding: 4px 0;
+      border-bottom: 1px dashed #eee;
+      gap: 8px;
+    }
+
+    .rename-pair:last-child {
+      border-bottom: none;
+    }
+
+    .rename-old {
+      color: #999;
+      text-decoration: line-through;
+    }
+
+    .rename-arrow {
+      color: #667eea;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .rename-new {
+      color: #333;
+      font-weight: 500;
+    }
+
+    /* ===== 差异对比结果样式 ===== */
+    .diff-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      font-family: "Consolas", "Monaco", "Microsoft YaHei", monospace;
+    }
+
+    .diff-table td {
+      padding: 2px 8px;
+      vertical-align: top;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .diff-line-num {
+      width: 40px;
+      text-align: right;
+      color: #aaa;
+      user-select: none;
+      font-size: 12px;
+      border-right: 1px solid #e8e8e8;
+    }
+
+    .diff-line-equal {
+      background: #fff;
+    }
+
+    .diff-line-del {
+      background: #ffeef0;
+    }
+
+    .diff-line-add {
+      background: #e6ffed;
+    }
+
+    .diff-line-mod-old {
+      background: #fff8e1;
+    }
+
+    .diff-line-mod-new {
+      background: #fff8e1;
+    }
+
+    .diff-line-del .diff-line-num { background: #ffdce0; }
+    .diff-line-add .diff-line-num { background: #cdffd8; }
+    .diff-line-mod-old .diff-line-num,
+    .diff-line-mod-new .diff-line-num { background: #fff0c0; }
+
+    .hl {
+      background: #ffb74d;
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    .diff-line-add .hl {
+      background: #acf2bd;
+    }
+
+    .diff-line-del .hl {
+      background: #fdaeb7;
+    }
+
+    /* ===== 模式选择区 ===== */
+    .mode-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .mode-selector label {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 14px;
+      border: 1.5px solid #ddd;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: #666;
+      background: #fafbfc;
+    }
+
+    .mode-selector label:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .mode-selector input[type="radio"] {
+      display: none;
+    }
+
+    .mode-selector input[type="radio"]:checked + span {
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .mode-selector label:has(input:checked) {
+      border-color: #667eea;
+      background: rgba(102, 126, 234, 0.06);
+      color: #667eea;
+    }
+
+    .mode-options {
+      background: #fafbfc;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 14px;
+      margin-bottom: 14px;
+    }
+
+    .mode-options .field-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mode-options .field-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .mode-options .field-row label {
+      font-size: 13px;
+      color: #666;
+      min-width: 60px;
+      flex-shrink: 0;
+    }
+
+    .mode-options .field-row input[type="text"],
+    .mode-options .field-row input[type="number"] {
+      flex: 1;
+      min-width: 80px;
+    }
+
+    /* ===== 开关/复选框样式 ===== */
+    .checkbox-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #667eea;
+      cursor: pointer;
+    }
+
+    /* ===== 统计信息 ===== */
+    .stats-info {
+      font-size: 13px;
+      color: #888;
+      padding: 8px 0;
+    }
+
+    .stats-info strong {
+      color: #667eea;
+    }
+
+    /* ===== Toast 提示 ===== */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: #333;
+      color: #fff;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 14px;
+      z-index: 10000;
+      opacity: 0;
+      transition: all 0.35s ease;
+      pointer-events: none;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      white-space: nowrap;
+    }
+
+    .toast.toast-success {
+      background: #52c41a;
+    }
+
+    .toast.toast-error {
+      background: #ff4d4f;
+    }
+
+    .toast.toast-show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ===== 双栏布局（文本对比用） ===== */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .two-col .col-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      margin-bottom: 6px;
+    }
+
+    /* ===== 目标路径输入 ===== */
+    .path-input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .path-input-group label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #555;
+      flex-shrink: 0;
+    }
+
+    .path-input-group input[type="text"] {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .path-input-group .path-hint {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    /* ===== 扩展名面板的行内输入 ===== */
+    .inline-input-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .inline-input-group label {
+      font-size: 14px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    .inline-input-group input[type="text"] {
+      width: 140px;
+    }
+
+    .inline-input-group .arrow-icon {
+      font-size: 18px;
+      color: #667eea;
+      font-weight: bold;
+    }
+
+    /* ===== 滚动条美化 ===== */
+    .preview-area::-webkit-scrollbar,
+    textarea::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .preview-area::-webkit-scrollbar-track,
+    textarea::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .preview-area::-webkit-scrollbar-thumb,
+    textarea::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 3px;
+    }
+
+    .preview-area::-webkit-scrollbar-thumb:hover,
+    textarea::-webkit-scrollbar-thumb:hover {
+      background: #aaa;
+    }
+
+    /* ===== 响应式适配 ===== */
+    @media (max-width: 768px) {
+      .tab-btn {
+        font-size: 12px;
+        padding: 8px 8px;
+      }
+
+      .container {
+        padding: 12px 8px 30px;
+      }
+
+      .panel {
+        padding: 16px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-row {
+        gap: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 页面头部 -->
+  <div class="app-header">
+    <h1>🧰 实用工具箱</h1>
+    <!-- Tab 导航栏 -->
+    <div class="tab-bar">
+      <button class="tab-btn" onclick="switchTab(0)">批量创建文件夹</button>
+      <button class="tab-btn" onclick="switchTab(1)">批量创建文件</button>
+      <button class="tab-btn" onclick="switchTab(2)">批量重命名文件</button>
+      <button class="tab-btn" onclick="switchTab(3)">批量重命名文件夹</button>
+      <button class="tab-btn" onclick="switchTab(4)">批量修改扩展名</button>
+      <button class="tab-btn" onclick="switchTab(5)">文本对比</button>
+      <button class="tab-btn" onclick="switchTab(6)">文本去重</button>
+      <button class="tab-btn" onclick="switchTab(7)">文本排序</button>
+    </div>
+  </div>
+
+  <!-- 主内容区 -->
+  <div class="container">
+    <!-- 功能面板 -->
+    <div class="panel" id="panel-create-folders">
+      <div class="panel-title">批量创建文件夹</div>
+      <div class="panel-desc">输入文件夹名称（每行一个），自动去重去空后生成批量创建脚本。支持从 Excel 粘贴（Tab 自动拆分）。</div>
+      <div class="path-input-group">
+        <label>目标路径</label>
+        <input type="text" id="folders-path" placeholder="留空则在脚本所在目录执行，例如：D:\工作文件">
+        <span class="path-hint">可选</span>
+      </div>
+      <div class="input-group">
+        <label for="folders-input">文件夹名称列表</label>
+        <textarea id="folders-input" placeholder="每行输入一个文件夹名称，例如：&#10;项目资料&#10;会议记录&#10;工作报告"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="folders-generate-btn" onclick="generateCreateBat('folders')">生成脚本</button>
+        <button class="btn btn-secondary" onclick="clearCreatePanel('folders')">清空</button>
+      </div>
+      <div class="preview-area" id="folders-preview"></div>
+    </div>
+    <div class="panel" id="panel-create-files">
+      <div class="panel-title">批量创建文件</div>
+      <div class="panel-desc">输入文件名（每行一个，需包含扩展名），自动去重去空后生成批量创建空文件脚本。支持从 Excel 粘贴（Tab 自动拆分）。</div>
+      <div class="path-input-group">
+        <label>目标路径</label>
+        <input type="text" id="files-path" placeholder="留空则在脚本所在目录执行，例如：D:\工作文件">
+        <span class="path-hint">可选</span>
+      </div>
+      <div class="input-group">
+        <label for="files-input">文件名列表</label>
+        <textarea id="files-input" placeholder="每行输入一个文件名（含扩展名），例如：&#10;报告.docx&#10;数据表.xlsx&#10;说明.txt"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="files-generate-btn" onclick="generateCreateBat('files')">生成脚本</button>
+        <button class="btn btn-secondary" onclick="clearCreatePanel('files')">清空</button>
+      </div>
+      <div class="preview-area" id="files-preview"></div>
+    </div>
+    <div class="panel" id="panel-rename-files">
+      <div class="panel-title">批量重命名文件</div>
+      <div class="panel-desc">选择重命名模式，输入文件名后实时预览重命名结果，生成批量重命名脚本。支持直接映射、查找替换、添加前缀/后缀、按序号编号四种模式。</div>
+      <div class="path-input-group">
+        <label>目标路径</label>
+        <input type="text" id="rename-file-path" placeholder="留空则在脚本所在目录执行，例如：D:\照片">
+        <span class="path-hint">可选</span>
+      </div>
+      <div class="mode-selector">
+        <label><input type="radio" name="rename-file-mode" value="direct" checked onchange="switchRenameMode('file')"><span>直接映射</span></label>
+        <label><input type="radio" name="rename-file-mode" value="replace" onchange="switchRenameMode('file')"><span>查找替换</span></label>
+        <label><input type="radio" name="rename-file-mode" value="affix" onchange="switchRenameMode('file')"><span>添加前缀/后缀</span></label>
+        <label><input type="radio" name="rename-file-mode" value="number" onchange="switchRenameMode('file')"><span>按序号编号</span></label>
+      </div>
+      <!-- 直接映射模式 -->
+      <div class="mode-options" id="rename-file-mode-direct">
+        <div class="input-group">
+          <label for="rename-file-direct-input">原名与新名映射（每行一对，Tab 分隔：原名&#9;新名）</label>
+          <textarea id="rename-file-direct-input" placeholder="从 Excel 粘贴两列数据，或手动输入：&#10;旧文件名.txt&#9;新文件名.txt&#10;报告v1.docx&#9;报告v2.docx" oninput="updateRenamePreview('file')"></textarea>
+        </div>
+      </div>
+      <!-- 查找替换模式 -->
+      <div class="mode-options" id="rename-file-mode-replace" style="display:none">
+        <div class="field-row">
+          <label>查找</label>
+          <input type="text" id="rename-file-find" placeholder="要查找的文本" oninput="updateRenamePreview('file')">
+        </div>
+        <div class="field-row">
+          <label>替换为</label>
+          <input type="text" id="rename-file-replace" placeholder="替换后的文本" oninput="updateRenamePreview('file')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-file-replace-input">文件名列表（每行一个）</label>
+          <textarea id="rename-file-replace-input" placeholder="每行输入一个文件名，例如：&#10;报告_v1.docx&#10;数据_v1.xlsx" oninput="updateRenamePreview('file')"></textarea>
+        </div>
+      </div>
+      <!-- 前缀后缀模式 -->
+      <div class="mode-options" id="rename-file-mode-affix" style="display:none">
+        <div class="field-row">
+          <label>前缀</label>
+          <input type="text" id="rename-file-prefix" placeholder="添加到文件名开头" oninput="updateRenamePreview('file')">
+        </div>
+        <div class="field-row">
+          <label>后缀</label>
+          <input type="text" id="rename-file-suffix" placeholder="插入到扩展名之前" oninput="updateRenamePreview('file')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-file-affix-input">文件名列表（每行一个）</label>
+          <textarea id="rename-file-affix-input" placeholder="每行输入一个文件名，例如：&#10;报告.docx&#10;数据.xlsx" oninput="updateRenamePreview('file')"></textarea>
+        </div>
+      </div>
+      <!-- 序号编号模式 -->
+      <div class="mode-options" id="rename-file-mode-number" style="display:none">
+        <div class="field-row">
+          <label>起始号</label>
+          <input type="number" id="rename-file-start" value="1" min="0" oninput="updateRenamePreview('file')">
+          <label>步长</label>
+          <input type="number" id="rename-file-step" value="1" min="1" oninput="updateRenamePreview('file')">
+          <label>位数</label>
+          <input type="number" id="rename-file-digits" value="3" min="1" max="10" oninput="updateRenamePreview('file')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-file-number-input">文件名列表（每行一个）</label>
+          <textarea id="rename-file-number-input" placeholder="每行输入一个文件名，例如：&#10;照片A.jpg&#10;照片B.jpg&#10;照片C.jpg" oninput="updateRenamePreview('file')"></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="generateRenameBat('file')">生成脚本</button>
+        <button class="btn btn-secondary" onclick="clearRenamePanel('file')">清空</button>
+      </div>
+      <div class="preview-area" id="rename-file-preview"></div>
+    </div>
+    <div class="panel" id="panel-rename-dirs">
+      <div class="panel-title">批量重命名文件夹</div>
+      <div class="panel-desc">选择重命名模式，输入文件夹名后实时预览重命名结果，生成批量重命名脚本。支持直接映射、查找替换、添加前缀/后缀、按序号编号四种模式。</div>
+      <div class="path-input-group">
+        <label>目标路径</label>
+        <input type="text" id="rename-dir-path" placeholder="留空则在脚本所在目录执行，例如：D:\项目">
+        <span class="path-hint">可选</span>
+      </div>
+      <div class="mode-selector">
+        <label><input type="radio" name="rename-dir-mode" value="direct" checked onchange="switchRenameMode('dir')"><span>直接映射</span></label>
+        <label><input type="radio" name="rename-dir-mode" value="replace" onchange="switchRenameMode('dir')"><span>查找替换</span></label>
+        <label><input type="radio" name="rename-dir-mode" value="affix" onchange="switchRenameMode('dir')"><span>添加前缀/后缀</span></label>
+        <label><input type="radio" name="rename-dir-mode" value="number" onchange="switchRenameMode('dir')"><span>按序号编号</span></label>
+      </div>
+      <!-- 直接映射模式 -->
+      <div class="mode-options" id="rename-dir-mode-direct">
+        <div class="input-group">
+          <label for="rename-dir-direct-input">原名与新名映射（每行一对，Tab 分隔：原名&#9;新名）</label>
+          <textarea id="rename-dir-direct-input" placeholder="从 Excel 粘贴两列数据，或手动输入：&#10;旧文件夹名&#9;新文件夹名&#10;项目A&#9;项目B" oninput="updateRenamePreview('dir')"></textarea>
+        </div>
+      </div>
+      <!-- 查找替换模式 -->
+      <div class="mode-options" id="rename-dir-mode-replace" style="display:none">
+        <div class="field-row">
+          <label>查找</label>
+          <input type="text" id="rename-dir-find" placeholder="要查找的文本" oninput="updateRenamePreview('dir')">
+        </div>
+        <div class="field-row">
+          <label>替换为</label>
+          <input type="text" id="rename-dir-replace" placeholder="替换后的文本" oninput="updateRenamePreview('dir')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-dir-replace-input">文件夹名列表（每行一个）</label>
+          <textarea id="rename-dir-replace-input" placeholder="每行输入一个文件夹名，例如：&#10;项目_v1&#10;资料_v1" oninput="updateRenamePreview('dir')"></textarea>
+        </div>
+      </div>
+      <!-- 前缀后缀模式 -->
+      <div class="mode-options" id="rename-dir-mode-affix" style="display:none">
+        <div class="field-row">
+          <label>前缀</label>
+          <input type="text" id="rename-dir-prefix" placeholder="添加到文件夹名开头" oninput="updateRenamePreview('dir')">
+        </div>
+        <div class="field-row">
+          <label>后缀</label>
+          <input type="text" id="rename-dir-suffix" placeholder="添加到文件夹名末尾" oninput="updateRenamePreview('dir')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-dir-affix-input">文件夹名列表（每行一个）</label>
+          <textarea id="rename-dir-affix-input" placeholder="每行输入一个文件夹名，例如：&#10;项目资料&#10;会议记录" oninput="updateRenamePreview('dir')"></textarea>
+        </div>
+      </div>
+      <!-- 序号编号模式 -->
+      <div class="mode-options" id="rename-dir-mode-number" style="display:none">
+        <div class="field-row">
+          <label>起始号</label>
+          <input type="number" id="rename-dir-start" value="1" min="0" oninput="updateRenamePreview('dir')">
+          <label>步长</label>
+          <input type="number" id="rename-dir-step" value="1" min="1" oninput="updateRenamePreview('dir')">
+          <label>位数</label>
+          <input type="number" id="rename-dir-digits" value="3" min="1" max="10" oninput="updateRenamePreview('dir')">
+        </div>
+        <div class="input-group" style="margin-top:10px">
+          <label for="rename-dir-number-input">文件夹名列表（每行一个）</label>
+          <textarea id="rename-dir-number-input" placeholder="每行输入一个文件夹名，例如：&#10;项目A&#10;项目B&#10;项目C" oninput="updateRenamePreview('dir')"></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="generateRenameBat('dir')">生成脚本</button>
+        <button class="btn btn-secondary" onclick="clearRenamePanel('dir')">清空</button>
+      </div>
+      <div class="preview-area" id="rename-dir-preview"></div>
+    </div>
+    <div class="panel" id="panel-change-ext">
+      <div class="panel-title">批量修改文件扩展名</div>
+      <div class="panel-desc">输入原扩展名和新扩展名，生成批量修改扩展名的脚本。扩展名前的点号会自动补全。</div>
+      <div class="path-input-group">
+        <label>目标路径</label>
+        <input type="text" id="ext-path" placeholder="留空则在脚本所在目录执行，例如：D:\照片">
+        <span class="path-hint">可选</span>
+      </div>
+      <div class="inline-input-group">
+        <label for="ext-old">原扩展名</label>
+        <input type="text" id="ext-old" placeholder=".jpeg" oninput="updateExtPreview()">
+        <span class="arrow-icon">→</span>
+        <label for="ext-new">新扩展名</label>
+        <input type="text" id="ext-new" placeholder=".jpg" oninput="updateExtPreview()">
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="ext-generate-btn" onclick="generateExtBat()" disabled>生成脚本</button>
+        <button class="btn btn-secondary" onclick="clearExtPanel()">清空</button>
+      </div>
+      <div class="preview-area" id="ext-preview"></div>
+    </div>
+    <div class="panel" id="panel-diff">
+      <div class="panel-title">文本对比</div>
+      <div class="panel-desc">将两段文本分别粘贴到左右文本框中，点击"对比"查看逐行差异。支持行级和字符级差异高亮显示。</div>
+      <div class="two-col">
+        <div>
+          <div class="col-label">原始文本</div>
+          <textarea id="diff-left" placeholder="在此粘贴原始文本..."></textarea>
+        </div>
+        <div>
+          <div class="col-label">修改后文本</div>
+          <textarea id="diff-right" placeholder="在此粘贴修改后文本..."></textarea>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="runDiff(); renderDiff();">对比</button>
+        <button class="btn btn-secondary" onclick="clearDiffPanel()">清空</button>
+        <label class="checkbox-label"><input type="checkbox" id="diff-only-changes" onchange="renderDiff()"> 仅显示差异行</label>
+      </div>
+      <div class="preview-area" id="diff-result"></div>
+    </div>
+    <div class="panel" id="panel-dedup">
+      <div class="panel-title">文本去重</div>
+      <div class="panel-desc">输入包含重复行的文本，一键去除重复行并保留首次出现的顺序。支持忽略大小写模式。</div>
+      <div class="input-group">
+        <label for="dedup-input">输入文本</label>
+        <textarea id="dedup-input" placeholder="每行输入一条文本，例如：&#10;苹果&#10;香蕉&#10;苹果&#10;橘子&#10;香蕉"></textarea>
+      </div>
+      <div class="btn-row">
+        <label class="checkbox-label"><input type="checkbox" id="dedup-ignore-case"> 忽略大小写</label>
+        <button class="btn btn-primary" onclick="runDedup()">去重</button>
+        <button class="btn btn-success" onclick="copyResult('dedup-output')">一键复制</button>
+        <button class="btn btn-secondary" onclick="clearDedupPanel()">清空</button>
+      </div>
+      <div id="dedup-stats" class="stats-info"></div>
+      <div class="input-group">
+        <label for="dedup-output">去重结果</label>
+        <textarea id="dedup-output" readonly placeholder="去重结果将在此显示..."></textarea>
+      </div>
+    </div>
+    <div class="panel" id="panel-sort">
+      <div class="panel-title">文本排序</div>
+      <div class="panel-desc">输入多行文本，按指定方向和模式排序。支持按字母（含中文）排序和按数字大小排序。</div>
+      <div class="input-group">
+        <label for="sort-input">输入文本</label>
+        <textarea id="sort-input" placeholder="每行输入一条文本，例如：&#10;香蕉&#10;苹果&#10;橘子&#10;葡萄"></textarea>
+      </div>
+      <div class="btn-row">
+        <span style="font-size:13px;color:#666;margin-right:4px;">排序方向：</span>
+        <label class="checkbox-label"><input type="radio" name="sort-dir" value="asc" checked> 正序</label>
+        <label class="checkbox-label"><input type="radio" name="sort-dir" value="desc"> 倒序</label>
+        <span style="font-size:13px;color:#666;margin-left:12px;margin-right:4px;">排序模式：</span>
+        <label class="checkbox-label"><input type="radio" name="sort-mode" value="alpha" checked> 按字母排序</label>
+        <label class="checkbox-label"><input type="radio" name="sort-mode" value="numeric"> 按数字排序</label>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="runSort()">排序</button>
+        <button class="btn btn-success" onclick="copyResult('sort-output')">一键复制</button>
+        <button class="btn btn-secondary" onclick="clearSortPanel()">清空</button>
+      </div>
+      <div class="input-group">
+        <label for="sort-output">排序结果</label>
+        <textarea id="sort-output" readonly placeholder="排序结果将在此显示..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 提示容器 -->
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ===== Tab 切换逻辑 =====
+    function switchTab(idx) {
+      var btns = document.querySelectorAll('.tab-btn');
+      var panels = document.querySelectorAll('.panel');
+      for (var i = 0; i < btns.length; i++) {
+        if (i === idx) {
+          btns[i].classList.add('active');
+        } else {
+          btns[i].classList.remove('active');
+        }
+      }
+      for (var i = 0; i < panels.length; i++) {
+        if (i === idx) {
+          panels[i].classList.add('active');
+        } else {
+          panels[i].classList.remove('active');
+        }
+      }
+    }
+
+    // 页面加载时默认选中第一个标签
+    switchTab(0);
+
+    // ===== 2.1 输入清洗器 =====
+    /**
+     * 解析多行文本，执行 Tab→换行转换、去空行、去首尾空格、去重
+     * @param {string} text - 用户输入的原始文本
+     * @returns {string[]} - 清洗后的非空、不重复行数组
+     */
+    function parseLines(text) {
+      // 1. 将 Tab 字符替换为换行符
+      var normalized = text.replace(/\t/g, '\n');
+      // 2. 按换行符拆分
+      var parts = normalized.split('\n');
+      // 3. trim 每行，过滤空行
+      var trimmed = [];
+      for (var i = 0; i < parts.length; i++) {
+        var line = parts[i].trim();
+        if (line !== '') {
+          trimmed.push(line);
+        }
+      }
+      // 4. 使用 Set 去重，保留首次出现顺序
+      var seen = new Set();
+      var result = [];
+      for (var i = 0; i < trimmed.length; i++) {
+        if (!seen.has(trimmed[i])) {
+          seen.add(trimmed[i]);
+          result.push(trimmed[i]);
+        }
+      }
+      return result;
+    }
+
+    // ===== 2.2 脚本生成器公共函数 =====
+    /**
+     * 获取当前日期字符串 YYYYMMDD
+     * @returns {string}
+     */
+    function getDateStr() {
+      var d = new Date();
+      var y = d.getFullYear();
+      var m = ('0' + (d.getMonth() + 1)).slice(-2);
+      var day = ('0' + d.getDate()).slice(-2);
+      return '' + y + m + day;
+    }
+
+    /**
+     * 生成 .bat 脚本头部
+     * @returns {string}
+     */
+    function batHeader() {
+      return '@echo off\r\nchcp 65001 >nul\r\n';
+    }
+
+    /**
+     * 生成 .bat 脚本尾部
+     * @returns {string}
+     */
+    function batFooter() {
+      return 'echo.\r\necho 操作完成！\r\npause\r\n';
+    }
+
+    /**
+     * 触发浏览器下载 .bat 文件（UTF-8 BOM 编码，兼容中文）
+     * @param {string} filename - 下载文件名
+     * @param {string} content - 文件内容
+     */
+    function downloadBat(filename, content) {
+      // UTF-8 BOM 头，确保中文在 cmd 中正确显示
+      var bom = new Uint8Array([0xEF, 0xBB, 0xBF]);
+      var blob = new Blob([bom, content], { type: 'application/octet-stream' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ===== 2.3 HTML 转义与 Toast 提示 =====
+    /**
+     * 转义 HTML 特殊字符，防止 XSS
+     * @param {string} s - 原始字符串
+     * @returns {string} - 转义后的安全字符串
+     */
+    function escapeHtml(s) {
+      return s
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    /**
+     * 显示 Toast 提示信息
+     * @param {string} msg - 提示文字
+     * @param {string} [type='success'] - 提示类型：'success' 或 'error'
+     */
+    function showToast(msg, type) {
+      type = type || 'success';
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.className = 'toast toast-' + type + ' toast-show';
+      clearTimeout(showToast._timer);
+      showToast._timer = setTimeout(function() {
+        toast.className = 'toast';
+      }, 2000);
+    }
+
+    // ===== 3.2 & 4.2 批量创建文件夹/文件 交互逻辑 =====
+
+    /**
+     * 生成 cd /d 命令（如果路径非空）
+     * @param {string} pathInputId - 路径输入框的 ID
+     * @returns {string} - cd 命令字符串，或空字符串
+     */
+    function batCdPath(pathInputId) {
+      var el = document.getElementById(pathInputId);
+      var p = el ? el.value.trim() : '';
+      if (p === '') return '';
+      // 先检查路径是否存在，不存在则提示并退出
+      return 'if not exist "' + p + '" (\r\n  echo 错误：目标路径 "' + p + '" 不存在！\r\n  pause\r\n  exit /b 1\r\n)\r\ncd /d "' + p + '"\r\n';
+    }
+
+    /**
+     * 更新批量创建面板的预览区
+     * @param {string} type - 'folders' 或 'files'
+     */
+    function updateCreatePreview(type) {
+      var input = document.getElementById(type + '-input');
+      var preview = document.getElementById(type + '-preview');
+      var lines = parseLines(input.value);
+      if (lines.length === 0) {
+        preview.innerHTML = '';
+        return;
+      }
+      var html = '<div class="count-info">共 ' + lines.length + ' 项</div>';
+      for (var i = 0; i < lines.length; i++) {
+        html += '<div class="item">' + escapeHtml(lines[i]) + '</div>';
+      }
+      preview.innerHTML = html;
+    }
+
+    // 监听输入事件，实时更新预览
+    document.getElementById('folders-input').addEventListener('input', function() {
+      updateCreatePreview('folders');
+    });
+
+    document.getElementById('files-input').addEventListener('input', function() {
+      updateCreatePreview('files');
+    });
+
+    /**
+     * 生成批量创建（文件夹/文件）的 .bat 脚本并触发下载
+     * @param {string} type - 'folders' 或 'files'
+     */
+    function generateCreateBat(type) {
+      var input = document.getElementById(type + '-input');
+      var lines = parseLines(input.value);
+      if (lines.length === 0) {
+        showToast('请先输入内容！', 'error');
+        return;
+      }
+      var content = batHeader();
+      content += batCdPath(type + '-path');
+      for (var i = 0; i < lines.length; i++) {
+        var name = lines[i];
+        if (type === 'folders') {
+          content += 'if not exist "' + name + '" mkdir "' + name + '"\r\n';
+        } else {
+          content += 'if not exist "' + name + '" type nul > "' + name + '"\r\n';
+        }
+      }
+      content += batFooter();
+      var prefix = type === 'folders' ? '批量创建文件夹' : '批量创建文件';
+      var filename = prefix + '_' + getDateStr() + '.bat';
+      downloadBat(filename, content);
+      showToast('脚本已生成并下载！');
+    }
+
+    /**
+     * 清空批量创建面板的输入区和预览区
+     * @param {string} type - 'folders' 或 'files'
+     */
+    function clearCreatePanel(type) {
+      document.getElementById(type + '-input').value = '';
+      document.getElementById(type + '-preview').innerHTML = '';
+      document.getElementById(type + '-path').value = '';
+    }
+
+    // ===== 6 & 7: 批量重命名文件/文件夹 =====
+
+    /**
+     * 获取当前选中的重命名模式
+     * @param {string} type - 'file' 或 'dir'
+     * @returns {string} - 'direct', 'replace', 'affix', 'number'
+     */
+    function getRenameMode(type) {
+      var radios = document.querySelectorAll('input[name="rename-' + type + '-mode"]');
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+      }
+      return 'direct';
+    }
+
+    /**
+     * 切换重命名模式时显示/隐藏对应的输入区
+     * @param {string} type - 'file' 或 'dir'
+     */
+    function switchRenameMode(type) {
+      var mode = getRenameMode(type);
+      var modes = ['direct', 'replace', 'affix', 'number'];
+      for (var i = 0; i < modes.length; i++) {
+        var el = document.getElementById('rename-' + type + '-mode-' + modes[i]);
+        el.style.display = (modes[i] === mode) ? '' : 'none';
+      }
+      updateRenamePreview(type);
+    }
+
+    /**
+     * 将数字填充为指定位数的零填充字符串
+     * @param {number} num - 数字
+     * @param {number} digits - 位数
+     * @returns {string}
+     */
+    function padNumber(num, digits) {
+      var s = '' + num;
+      while (s.length < digits) s = '0' + s;
+      return s;
+    }
+
+    /**
+     * 根据当前选择的模式和参数，计算重命名映射对
+     * @param {string} type - 'file' 或 'dir'
+     * @returns {Array<[string, string]>} - [原名, 新名] 映射对数组
+     */
+    function computeRenamePairs(type) {
+      var mode = getRenameMode(type);
+      var pairs = [];
+
+      if (mode === 'direct') {
+        // 直接映射：解析 Tab 分隔的原名/新名对
+        var raw = document.getElementById('rename-' + type + '-direct-input').value;
+        var lines = raw.split('\n');
+        for (var i = 0; i < lines.length; i++) {
+          var line = lines[i].trim();
+          if (line === '') continue;
+          var tabIdx = line.indexOf('\t');
+          if (tabIdx === -1) continue; // 没有 Tab 分隔符则跳过
+          var oldName = line.substring(0, tabIdx).trim();
+          var newName = line.substring(tabIdx + 1).trim();
+          if (oldName !== '' && newName !== '') {
+            pairs.push([oldName, newName]);
+          }
+        }
+      } else if (mode === 'replace') {
+        // 查找替换
+        var findStr = document.getElementById('rename-' + type + '-find').value;
+        var replaceStr = document.getElementById('rename-' + type + '-replace').value;
+        var raw = document.getElementById('rename-' + type + '-replace-input').value;
+        var names = parseLines(raw);
+        if (findStr === '') return pairs;
+        for (var i = 0; i < names.length; i++) {
+          var oldName = names[i];
+          // replaceAll via split/join for broad compatibility
+          var newName = oldName.split(findStr).join(replaceStr);
+          pairs.push([oldName, newName]);
+        }
+      } else if (mode === 'affix') {
+        // 添加前缀/后缀
+        var prefix = document.getElementById('rename-' + type + '-prefix').value;
+        var suffix = document.getElementById('rename-' + type + '-suffix').value;
+        var raw = document.getElementById('rename-' + type + '-affix-input').value;
+        var names = parseLines(raw);
+        for (var i = 0; i < names.length; i++) {
+          var oldName = names[i];
+          var newName;
+          if (type === 'file') {
+            // 文件模式：后缀插入到最后一个 . 之前（扩展名保留）
+            var dotIdx = oldName.lastIndexOf('.');
+            if (dotIdx > 0) {
+              var body = oldName.substring(0, dotIdx);
+              var ext = oldName.substring(dotIdx); // 包含 .
+              newName = prefix + body + suffix + ext;
+            } else {
+              // 无扩展名，直接追加
+              newName = prefix + oldName + suffix;
+            }
+          } else {
+            // 文件夹模式：前缀 + 原名 + 后缀
+            newName = prefix + oldName + suffix;
+          }
+          pairs.push([oldName, newName]);
+        }
+      } else if (mode === 'number') {
+        // 按序号编号
+        var start = parseInt(document.getElementById('rename-' + type + '-start').value) || 1;
+        var step = parseInt(document.getElementById('rename-' + type + '-step').value) || 1;
+        var digits = parseInt(document.getElementById('rename-' + type + '-digits').value) || 3;
+        var raw = document.getElementById('rename-' + type + '-number-input').value;
+        var names = parseLines(raw);
+        for (var i = 0; i < names.length; i++) {
+          var oldName = names[i];
+          var num = start + i * step;
+          var padded = padNumber(num, digits);
+          var newName;
+          if (type === 'file') {
+            // 文件模式：序号替换文件名主体，保留扩展名
+            var dotIdx = oldName.lastIndexOf('.');
+            if (dotIdx > 0) {
+              var ext = oldName.substring(dotIdx);
+              newName = padded + ext;
+            } else {
+              newName = padded;
+            }
+          } else {
+            // 文件夹模式：直接用序号作为新名
+            newName = padded;
+          }
+          pairs.push([oldName, newName]);
+        }
+      }
+
+      return pairs;
+    }
+
+    /**
+     * 更新重命名预览区
+     * @param {string} type - 'file' 或 'dir'
+     */
+    function updateRenamePreview(type) {
+      var preview = document.getElementById('rename-' + type + '-preview');
+      var pairs = computeRenamePairs(type);
+      if (pairs.length === 0) {
+        preview.innerHTML = '';
+        return;
+      }
+      var html = '<div class="count-info">共 ' + pairs.length + ' 项</div>';
+      for (var i = 0; i < pairs.length; i++) {
+        html += '<div class="rename-pair">'
+          + '<span class="rename-old">' + escapeHtml(pairs[i][0]) + '</span>'
+          + '<span class="rename-arrow">→</span>'
+          + '<span class="rename-new">' + escapeHtml(pairs[i][1]) + '</span>'
+          + '</div>';
+      }
+      preview.innerHTML = html;
+    }
+
+    /**
+     * 生成批量重命名的 .bat 脚本并触发下载
+     * @param {string} type - 'file' 或 'dir'
+     */
+    function generateRenameBat(type) {
+      var pairs = computeRenamePairs(type);
+      if (pairs.length === 0) {
+        showToast('请先输入内容！', 'error');
+        return;
+      }
+      // 校验新名称不能包含路径分隔符
+      for (var i = 0; i < pairs.length; i++) {
+        if (pairs[i][1].indexOf('\\') !== -1 || pairs[i][1].indexOf('/') !== -1) {
+          showToast('新名称不能包含路径分隔符（\\ 或 /）：' + pairs[i][1], 'error');
+          return;
+        }
+      }
+      var content = batHeader();
+      content += batCdPath('rename-' + type + '-path');
+      for (var i = 0; i < pairs.length; i++) {
+        content += 'ren "' + pairs[i][0] + '" "' + pairs[i][1] + '"\r\n';
+      }
+      content += batFooter();
+      var prefix = type === 'file' ? '批量重命名文件' : '批量重命名文件夹';
+      var filename = prefix + '_' + getDateStr() + '.bat';
+      downloadBat(filename, content);
+      showToast('脚本已生成并下载！');
+    }
+
+    /**
+     * 清空重命名面板的所有输入区和预览区
+     * @param {string} type - 'file' 或 'dir'
+     */
+    function clearRenamePanel(type) {
+      // 清空所有模式的输入
+      var ids = [
+        'rename-' + type + '-direct-input',
+        'rename-' + type + '-replace-input',
+        'rename-' + type + '-affix-input',
+        'rename-' + type + '-number-input',
+        'rename-' + type + '-find',
+        'rename-' + type + '-replace',
+        'rename-' + type + '-prefix',
+        'rename-' + type + '-suffix'
+      ];
+      for (var i = 0; i < ids.length; i++) {
+        var el = document.getElementById(ids[i]);
+        if (el) el.value = '';
+      }
+      // 重置数字参数
+      var startEl = document.getElementById('rename-' + type + '-start');
+      if (startEl) startEl.value = '1';
+      var stepEl = document.getElementById('rename-' + type + '-step');
+      if (stepEl) stepEl.value = '1';
+      var digitsEl = document.getElementById('rename-' + type + '-digits');
+      if (digitsEl) digitsEl.value = '3';
+      // 清空预览
+      document.getElementById('rename-' + type + '-preview').innerHTML = '';
+      // 清空路径
+      var pathEl = document.getElementById('rename-' + type + '-path');
+      if (pathEl) pathEl.value = '';
+    }
+
+    // ===== 8: 批量修改扩展名 =====
+
+    /**
+     * 规范化扩展名：自动补点
+     * @param {string} ext - 用户输入的扩展名
+     * @returns {string} - 以 . 开头的扩展名
+     */
+    function normalizeExt(ext) {
+      ext = ext.trim();
+      if (ext === '') return '';
+      if (ext.charAt(0) !== '.') ext = '.' + ext;
+      return ext;
+    }
+
+    /**
+     * 更新扩展名面板的预览区和按钮状态
+     */
+    function updateExtPreview() {
+      var oldExt = normalizeExt(document.getElementById('ext-old').value);
+      var newExt = normalizeExt(document.getElementById('ext-new').value);
+      var preview = document.getElementById('ext-preview');
+      var btn = document.getElementById('ext-generate-btn');
+
+      if (oldExt === '' || newExt === '') {
+        preview.innerHTML = '';
+        btn.disabled = true;
+        return;
+      }
+
+      btn.disabled = false;
+      preview.innerHTML = '<div class="rename-pair">'
+        + '<span class="rename-old">*' + escapeHtml(oldExt) + '</span>'
+        + '<span class="rename-arrow">→</span>'
+        + '<span class="rename-new">*' + escapeHtml(newExt) + '</span>'
+        + '</div>';
+    }
+
+    /**
+     * 生成批量修改扩展名的 .bat 脚本并触发下载
+     */
+    function generateExtBat() {
+      var oldExt = normalizeExt(document.getElementById('ext-old').value);
+      var newExt = normalizeExt(document.getElementById('ext-new').value);
+      if (oldExt === '' || newExt === '') {
+        showToast('请输入原扩展名和新扩展名！', 'error');
+        return;
+      }
+      var content = batHeader();
+      content += batCdPath('ext-path');
+      content += 'ren "*' + oldExt + '" "*' + newExt + '"\r\n';
+      content += batFooter();
+      var filename = '批量修改扩展名_' + getDateStr() + '.bat';
+      downloadBat(filename, content);
+      showToast('脚本已生成并下载！');
+    }
+
+    /**
+     * 清空扩展名面板
+     */
+    function clearExtPanel() {
+      document.getElementById('ext-old').value = '';
+      document.getElementById('ext-new').value = '';
+      document.getElementById('ext-preview').innerHTML = '';
+      document.getElementById('ext-generate-btn').disabled = true;
+      document.getElementById('ext-path').value = '';
+    }
+
+    // ===== 10.2 LCS 差异比较算法 =====
+
+    /**
+     * 计算两个序列的 LCS 动态规划矩阵
+     * @param {Array} a - 序列 A
+     * @param {Array} b - 序列 B
+     * @returns {number[][]} - DP 矩阵，大小 (a.length+1) x (b.length+1)
+     */
+    function lcsMatrix(a, b) {
+      var m = a.length;
+      var n = b.length;
+      var dp = [];
+      for (var i = 0; i <= m; i++) {
+        dp[i] = [];
+        for (var j = 0; j <= n; j++) {
+          dp[i][j] = 0;
+        }
+      }
+      for (var i = 1; i <= m; i++) {
+        for (var j = 1; j <= n; j++) {
+          if (a[i - 1] === b[j - 1]) {
+            dp[i][j] = dp[i - 1][j - 1] + 1;
+          } else {
+            dp[i][j] = dp[i - 1][j] > dp[i][j - 1] ? dp[i - 1][j] : dp[i][j - 1];
+          }
+        }
+      }
+      return dp;
+    }
+
+    /**
+     * 回溯 DP 矩阵，生成差异操作序列
+     * @param {number[][]} dp - DP 矩阵
+     * @param {Array} a - 序列 A
+     * @param {Array} b - 序列 B
+     * @returns {Array<{type: string, leftIdx?: number, rightIdx?: number}>}
+     */
+    function backtrackDiff(dp, a, b) {
+      var ops = [];
+      var i = a.length;
+      var j = b.length;
+      while (i > 0 || j > 0) {
+        if (i > 0 && j > 0 && a[i - 1] === b[j - 1]) {
+          ops.push({ type: 'equal', leftIdx: i - 1, rightIdx: j - 1 });
+          i--;
+          j--;
+        } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+          ops.push({ type: 'add', rightIdx: j - 1 });
+          j--;
+        } else {
+          ops.push({ type: 'del', leftIdx: i - 1 });
+          i--;
+        }
+      }
+      ops.reverse();
+
+      // 合并相邻的 del + add 为 mod
+      var merged = [];
+      var k = 0;
+      while (k < ops.length) {
+        if (k + 1 < ops.length && ops[k].type === 'del' && ops[k + 1].type === 'add') {
+          merged.push({ type: 'mod', leftIdx: ops[k].leftIdx, rightIdx: ops[k + 1].rightIdx });
+          k += 2;
+        } else {
+          merged.push(ops[k]);
+          k++;
+        }
+      }
+      return merged;
+    }
+
+    /**
+     * 对两个字符串进行字符级差异分析（基于 LCS）
+     * @param {string} oldStr - 原始字符串
+     * @param {string} newStr - 修改后字符串
+     * @returns {{oldParts: Array<{ch: string, hl: boolean}>, newParts: Array<{ch: string, hl: boolean}>}}
+     */
+    function charDiff(oldStr, newStr) {
+      var a = oldStr.split('');
+      var b = newStr.split('');
+      var dp = lcsMatrix(a, b);
+
+      // 回溯得到字符级操作
+      var oldParts = [];
+      var newParts = [];
+      var i = a.length;
+      var j = b.length;
+      var opsReverse = [];
+      while (i > 0 || j > 0) {
+        if (i > 0 && j > 0 && a[i - 1] === b[j - 1]) {
+          opsReverse.push({ type: 'equal', ai: i - 1, bj: j - 1 });
+          i--;
+          j--;
+        } else if (j > 0 && (i === 0 || dp[i][j - 1] >= dp[i - 1][j])) {
+          opsReverse.push({ type: 'add', bj: j - 1 });
+          j--;
+        } else {
+          opsReverse.push({ type: 'del', ai: i - 1 });
+          i--;
+        }
+      }
+      opsReverse.reverse();
+
+      for (var k = 0; k < opsReverse.length; k++) {
+        var op = opsReverse[k];
+        if (op.type === 'equal') {
+          oldParts.push({ ch: a[op.ai], hl: false });
+          newParts.push({ ch: b[op.bj], hl: false });
+        } else if (op.type === 'del') {
+          oldParts.push({ ch: a[op.ai], hl: true });
+        } else if (op.type === 'add') {
+          newParts.push({ ch: b[op.bj], hl: true });
+        }
+      }
+
+      return { oldParts: oldParts, newParts: newParts };
+    }
+
+    // ===== 10.3 差异结果渲染与交互 =====
+
+    // 存储当前差异结果
+    var _diffOps = [];
+    var _diffLeftLines = [];
+    var _diffRightLines = [];
+
+    /**
+     * 执行完整的文本对比流程
+     */
+    function runDiff() {
+      var leftText = document.getElementById('diff-left').value;
+      var rightText = document.getElementById('diff-right').value;
+      _diffLeftLines = leftText.split('\n');
+      _diffRightLines = rightText.split('\n');
+
+      var dp = lcsMatrix(_diffLeftLines, _diffRightLines);
+      var ops = backtrackDiff(dp, _diffLeftLines, _diffRightLines);
+
+      // 对 mod 行执行字符级差异分析，生成带高亮的 HTML
+      for (var i = 0; i < ops.length; i++) {
+        if (ops[i].type === 'mod') {
+          var oldLine = _diffLeftLines[ops[i].leftIdx];
+          var newLine = _diffRightLines[ops[i].rightIdx];
+          var cd = charDiff(oldLine, newLine);
+          // 生成带高亮标记的 HTML
+          var oldHtml = '';
+          for (var k = 0; k < cd.oldParts.length; k++) {
+            var escaped = escapeHtml(cd.oldParts[k].ch);
+            oldHtml += cd.oldParts[k].hl ? '<span class="hl">' + escaped + '</span>' : escaped;
+          }
+          var newHtml = '';
+          for (var k = 0; k < cd.newParts.length; k++) {
+            var escaped = escapeHtml(cd.newParts[k].ch);
+            newHtml += cd.newParts[k].hl ? '<span class="hl">' + escaped + '</span>' : escaped;
+          }
+          ops[i].oldHtml = oldHtml;
+          ops[i].newHtml = newHtml;
+        }
+      }
+
+      _diffOps = ops;
+    }
+
+    /**
+     * 渲染差异结果到 #diff-result
+     */
+    function renderDiff() {
+      var result = document.getElementById('diff-result');
+      var onlyChanges = document.getElementById('diff-only-changes').checked;
+
+      if (_diffOps.length === 0) {
+        result.innerHTML = '<span style="color:#bbb;font-style:italic;">请先输入文本并点击对比</span>';
+        return;
+      }
+
+      var html = '<table class="diff-table">';
+      var leftNum = 0;
+      var rightNum = 0;
+
+      for (var i = 0; i < _diffOps.length; i++) {
+        var op = _diffOps[i];
+
+        if (op.type === 'equal') {
+          leftNum++;
+          rightNum++;
+          if (!onlyChanges) {
+            html += '<tr class="diff-line-equal">';
+            html += '<td class="diff-line-num">' + leftNum + '</td>';
+            html += '<td class="diff-line-num">' + rightNum + '</td>';
+            html += '<td>' + escapeHtml(_diffLeftLines[op.leftIdx]) + '</td>';
+            html += '</tr>';
+          }
+        } else if (op.type === 'del') {
+          leftNum++;
+          html += '<tr class="diff-line-del">';
+          html += '<td class="diff-line-num">' + leftNum + '</td>';
+          html += '<td class="diff-line-num"></td>';
+          html += '<td>- ' + escapeHtml(_diffLeftLines[op.leftIdx]) + '</td>';
+          html += '</tr>';
+        } else if (op.type === 'add') {
+          rightNum++;
+          html += '<tr class="diff-line-add">';
+          html += '<td class="diff-line-num"></td>';
+          html += '<td class="diff-line-num">' + rightNum + '</td>';
+          html += '<td>+ ' + escapeHtml(_diffRightLines[op.rightIdx]) + '</td>';
+          html += '</tr>';
+        } else if (op.type === 'mod') {
+          leftNum++;
+          rightNum++;
+          html += '<tr class="diff-line-mod-old">';
+          html += '<td class="diff-line-num">' + leftNum + '</td>';
+          html += '<td class="diff-line-num"></td>';
+          html += '<td>- ' + op.oldHtml + '</td>';
+          html += '</tr>';
+          html += '<tr class="diff-line-mod-new">';
+          html += '<td class="diff-line-num"></td>';
+          html += '<td class="diff-line-num">' + rightNum + '</td>';
+          html += '<td>+ ' + op.newHtml + '</td>';
+          html += '</tr>';
+        }
+      }
+
+      html += '</table>';
+      result.innerHTML = html;
+    }
+
+    /**
+     * 清空文本对比面板
+     */
+    function clearDiffPanel() {
+      document.getElementById('diff-left').value = '';
+      document.getElementById('diff-right').value = '';
+      document.getElementById('diff-result').innerHTML = '';
+      document.getElementById('diff-only-changes').checked = false;
+      _diffOps = [];
+      _diffLeftLines = [];
+      _diffRightLines = [];
+    }
+
+    // ===== 11.1 文本去重 =====
+
+    /**
+     * 执行文本去重，保留首次出现顺序
+     * 支持"忽略大小写"模式（保留首次出现的原始大小写）
+     */
+    function runDedup() {
+      var input = document.getElementById('dedup-input').value;
+      var ignoreCase = document.getElementById('dedup-ignore-case').checked;
+      var lines = input.split('\n');
+      // 先过滤空行
+      var nonEmpty = [];
+      for (var i = 0; i < lines.length; i++) {
+        if (lines[i].trim() !== '') {
+          nonEmpty.push(lines[i]);
+        }
+      }
+      var seen = new Map();
+      var result = [];
+      for (var i = 0; i < nonEmpty.length; i++) {
+        var line = nonEmpty[i];
+        var key = ignoreCase ? line.toLowerCase() : line;
+        if (!seen.has(key)) {
+          seen.set(key, true);
+          result.push(line);
+        }
+      }
+      var original = nonEmpty.length;
+      var deduped = result.length;
+      var removed = original - deduped;
+      document.getElementById('dedup-stats').innerHTML =
+        '原始 <strong>' + original + '</strong> 行 → 去重后 <strong>' + deduped + '</strong> 行，去除 <strong>' + removed + '</strong> 行重复';
+      document.getElementById('dedup-output').value = result.join('\n');
+    }
+
+    /**
+     * 将指定文本框内容复制到系统剪贴板
+     * @param {string} id - 文本框元素 ID
+     */
+    function copyResult(id) {
+      var el = document.getElementById(id);
+      var text = el.value || '';
+      if (!text) {
+        showToast('没有可复制的内容！', 'error');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast('已复制到剪贴板！');
+        }, function() {
+          // fallback
+          copyFallback(el);
+        });
+      } else {
+        copyFallback(el);
+      }
+    }
+
+    /**
+     * 剪贴板复制降级方案
+     * @param {HTMLTextAreaElement} el
+     */
+    function copyFallback(el) {
+      try {
+        el.select();
+        el.setSelectionRange(0, el.value.length);
+        document.execCommand('copy');
+        showToast('已复制到剪贴板！');
+      } catch (e) {
+        showToast('复制失败，请手动复制', 'error');
+      }
+    }
+
+    /**
+     * 清空文本去重面板
+     */
+    function clearDedupPanel() {
+      document.getElementById('dedup-input').value = '';
+      document.getElementById('dedup-output').value = '';
+      document.getElementById('dedup-stats').innerHTML = '';
+      document.getElementById('dedup-ignore-case').checked = false;
+    }
+
+    // ===== 12.1 文本排序 =====
+
+    /**
+     * 执行文本排序
+     * 支持正序/倒序、按字母/按数字模式
+     * 按数字模式下非数字行排在数字行之后
+     */
+    function runSort() {
+      var input = document.getElementById('sort-input').value;
+      var dir = document.querySelector('input[name="sort-dir"]:checked').value;
+      var mode = document.querySelector('input[name="sort-mode"]:checked').value;
+
+      // Split by newline, trim each line, filter empty lines
+      var lines = input.split('\n');
+      var filtered = [];
+      for (var i = 0; i < lines.length; i++) {
+        var trimmed = lines[i].trim();
+        if (trimmed !== '') {
+          filtered.push(trimmed);
+        }
+      }
+
+      if (mode === 'alpha') {
+        filtered.sort(function(a, b) {
+          return a.localeCompare(b, 'zh');
+        });
+      } else {
+        // numeric sort: NaN lines go after numeric lines
+        filtered.sort(function(a, b) {
+          var na = parseFloat(a);
+          var nb = parseFloat(b);
+          var aIsNaN = isNaN(na);
+          var bIsNaN = isNaN(nb);
+          if (aIsNaN && bIsNaN) return a.localeCompare(b, 'zh');
+          if (aIsNaN) return 1;
+          if (bIsNaN) return -1;
+          return na - nb;
+        });
+      }
+
+      if (dir === 'desc') {
+        filtered.reverse();
+      }
+
+      document.getElementById('sort-output').value = filtered.join('\n');
+    }
+
+    /**
+     * 清空文本排序面板
+     */
+    function clearSortPanel() {
+      document.getElementById('sort-input').value = '';
+      document.getElementById('sort-output').value = '';
+    }
+  </script>
+</body>
+</html>
