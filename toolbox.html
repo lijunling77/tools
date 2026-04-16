@@ -13,15 +13,15 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
-      background: #f0f2f5;
-      color: #333;
+      background: #f4f1eb;
+      color: #3d3d3d;
       line-height: 1.6;
       min-height: 100vh;
     }
 
     /* ===== 页面容器 ===== */
     .app-header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #5b8c5a;
       color: #fff;
       padding: 20px 0 0 0;
       text-align: center;
@@ -29,10 +29,10 @@
     }
 
     .app-header h1 {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
       letter-spacing: 2px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .container {
@@ -46,8 +46,8 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 8px 8px 0 0;
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 0;
       max-width: 960px;
       margin: 0 auto;
       padding: 0 8px;
@@ -58,35 +58,35 @@
       padding: 10px 12px;
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 13px;
       cursor: pointer;
       transition: all 0.2s ease;
-      border-bottom: 3px solid transparent;
+      border-bottom: 2px solid transparent;
       white-space: nowrap;
       font-family: inherit;
     }
 
     .tab-btn:hover {
       color: #fff;
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .tab-btn.active {
       color: #fff;
       font-weight: 600;
       border-bottom-color: #fff;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.12);
     }
 
     /* ===== 功能面板 ===== */
     .panel {
       display: none;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      background: #faf8f5;
+      border-radius: 8px;
+      border: 1px solid #e5e0d8;
       padding: 24px;
-      animation: fadeIn 0.25s ease;
+      animation: fadeIn 0.2s ease;
     }
 
     .panel.active {
@@ -99,9 +99,9 @@
     }
 
     .panel-title {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
-      color: #1a1a2e;
+      color: #3d3d3d;
       margin-bottom: 6px;
     }
 
@@ -129,21 +129,20 @@
       width: 100%;
       min-height: 140px;
       padding: 12px 14px;
-      border: 1.5px solid #ddd;
-      border-radius: 8px;
+      border: 1px solid #d8d3cb;
+      border-radius: 6px;
       font-size: 14px;
       font-family: "Consolas", "Monaco", "Microsoft YaHei", monospace;
       line-height: 1.6;
       resize: vertical;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      color: #333;
-      background: #fafbfc;
+      transition: border-color 0.2s ease;
+      color: #3d3d3d;
+      background: #fdfcfa;
     }
 
     textarea:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+      border-color: #5b8c5a;
       background: #fff;
     }
 
@@ -154,20 +153,19 @@
     input[type="text"],
     input[type="number"] {
       padding: 8px 12px;
-      border: 1.5px solid #ddd;
+      border: 1px solid #d8d3cb;
       border-radius: 6px;
       font-size: 14px;
       font-family: inherit;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-      color: #333;
-      background: #fafbfc;
+      transition: border-color 0.2s ease;
+      color: #3d3d3d;
+      background: #fdfcfa;
     }
 
     input[type="text"]:focus,
     input[type="number"]:focus {
       outline: none;
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+      border-color: #5b8c5a;
       background: #fff;
     }
 
@@ -196,58 +194,51 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: #5b8c5a;
       color: #fff;
     }
 
     .btn-primary:hover {
-      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-      transform: translateY(-1px);
+      background: #4e7a4d;
     }
 
     .btn-primary:active {
-      transform: translateY(0);
-      box-shadow: 0 2px 6px rgba(102, 126, 234, 0.3);
+      background: #436943;
     }
 
     .btn-primary:disabled {
-      background: #ccc;
+      background: #c5c0b8;
       cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
     }
 
     .btn-secondary {
-      background: #f0f2f5;
-      color: #555;
-      border: 1px solid #ddd;
+      background: #ece8e1;
+      color: #666;
+      border: 1px solid #d8d3cb;
     }
 
     .btn-secondary:hover {
-      background: #e8eaed;
-      border-color: #ccc;
+      background: #e2ded6;
     }
 
     .btn-success {
-      background: #52c41a;
+      background: #6b9e6a;
       color: #fff;
     }
 
     .btn-success:hover {
-      background: #45a817;
-      box-shadow: 0 4px 12px rgba(82, 196, 26, 0.3);
-      transform: translateY(-1px);
+      background: #5b8c5a;
     }
 
     .btn-success:active {
-      transform: translateY(0);
+      background: #4e7a4d;
     }
 
     /* ===== 预览区样式 ===== */
     .preview-area {
-      background: #fafbfc;
-      border: 1.5px solid #e8e8e8;
-      border-radius: 8px;
+      background: #fdfcfa;
+      border: 1px solid #e5e0d8;
+      border-radius: 6px;
       padding: 16px;
       max-height: 400px;
       overflow-y: auto;
@@ -266,7 +257,7 @@
 
     .preview-area .count-info {
       font-size: 13px;
-      color: #667eea;
+      color: #5b8c5a;
       font-weight: 500;
       margin-bottom: 8px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
@@ -300,7 +291,7 @@
     }
 
     .rename-arrow {
-      color: #667eea;
+      color: #5b8c5a;
       font-weight: bold;
       flex-shrink: 0;
     }
@@ -331,11 +322,11 @@
       color: #aaa;
       user-select: none;
       font-size: 12px;
-      border-right: 1px solid #e8e8e8;
+      border-right: 1px solid #e5e0d8;
     }
 
     .diff-line-equal {
-      background: #fff;
+      background: #fdfcfa;
     }
 
     .diff-line-del {
@@ -386,18 +377,18 @@
       align-items: center;
       gap: 4px;
       padding: 6px 14px;
-      border: 1.5px solid #ddd;
+      border: 1px solid #d8d3cb;
       border-radius: 20px;
       font-size: 13px;
       cursor: pointer;
       transition: all 0.2s ease;
       color: #666;
-      background: #fafbfc;
+      background: #fdfcfa;
     }
 
     .mode-selector label:hover {
-      border-color: #667eea;
-      color: #667eea;
+      border-color: #5b8c5a;
+      color: #5b8c5a;
     }
 
     .mode-selector input[type="radio"] {
@@ -405,19 +396,19 @@
     }
 
     .mode-selector input[type="radio"]:checked + span {
-      color: #667eea;
+      color: #5b8c5a;
       font-weight: 600;
     }
 
     .mode-selector label:has(input:checked) {
-      border-color: #667eea;
-      background: rgba(102, 126, 234, 0.06);
-      color: #667eea;
+      border-color: #5b8c5a;
+      background: rgba(91, 140, 90, 0.06);
+      color: #5b8c5a;
     }
 
     .mode-options {
-      background: #fafbfc;
-      border: 1px solid #eee;
+      background: #fdfcfa;
+      border: 1px solid #e5e0d8;
       border-radius: 8px;
       padding: 14px;
       margin-bottom: 14px;
@@ -462,7 +453,7 @@
     .checkbox-label input[type="checkbox"] {
       width: 16px;
       height: 16px;
-      accent-color: #667eea;
+      accent-color: #5b8c5a;
       cursor: pointer;
     }
 
@@ -474,7 +465,7 @@
     }
 
     .stats-info strong {
-      color: #667eea;
+      color: #5b8c5a;
     }
 
     /* ===== Toast 提示 ===== */
@@ -497,11 +488,11 @@
     }
 
     .toast.toast-success {
-      background: #52c41a;
+      background: #5b8c5a;
     }
 
     .toast.toast-error {
-      background: #ff4d4f;
+      background: #c0665a;
     }
 
     .toast.toast-show {
@@ -571,7 +562,7 @@
 
     .inline-input-group .arrow-icon {
       font-size: 18px;
-      color: #667eea;
+      color: #5b8c5a;
       font-weight: bold;
     }
 
@@ -595,6 +586,71 @@
     .preview-area::-webkit-scrollbar-thumb:hover,
     textarea::-webkit-scrollbar-thumb:hover {
       background: #aaa;
+    }
+
+    /* ===== 帮助页面样式 ===== */
+    .help-content {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #444;
+    }
+
+    .help-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: #3d3d3d;
+      margin: 24px 0 10px 0;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e5e0d8;
+    }
+
+    .help-content h3:first-child {
+      margin-top: 0;
+    }
+
+    .help-content p {
+      margin: 8px 0;
+    }
+
+    .help-content ol, .help-content ul {
+      margin: 8px 0;
+      padding-left: 24px;
+    }
+
+    .help-content li {
+      margin: 4px 0;
+    }
+
+    .help-content code {
+      background: #ece8e1;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: "Consolas", "Monaco", monospace;
+      color: #5b8c5a;
+    }
+
+    .help-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+
+    .help-table th, .help-table td {
+      padding: 8px 12px;
+      border: 1px solid #e5e0d8;
+      text-align: left;
+    }
+
+    .help-table th {
+      background: #f0ece6;
+      font-weight: 600;
+      color: #555;
+    }
+
+    .help-table tr:hover {
+      background: #fdfcfa;
     }
 
     /* ===== 响应式适配 ===== */
@@ -637,6 +693,7 @@
       <button class="tab-btn" onclick="switchTab(5)">文本对比</button>
       <button class="tab-btn" onclick="switchTab(6)">文本去重</button>
       <button class="tab-btn" onclick="switchTab(7)">文本排序</button>
+      <button class="tab-btn" onclick="switchTab(8)">📖 使用帮助</button>
     </div>
   </div>
 
@@ -906,6 +963,62 @@
       <div class="input-group">
         <label for="sort-output">排序结果</label>
         <textarea id="sort-output" readonly placeholder="排序结果将在此显示..."></textarea>
+      </div>
+    </div>
+    <div class="panel" id="panel-help">
+      <div class="panel-title">📖 使用帮助</div>
+      <div class="help-content">
+
+        <h3>一、打开工具箱</h3>
+        <p>双击 <code>toolbox.html</code> 文件即可用浏览器打开（推荐 Chrome 或 Edge）。不需要联网，不需要安装任何软件。</p>
+
+        <h3>二、功能总览</h3>
+        <table class="help-table">
+          <tr><th>标签</th><th>用途</th></tr>
+          <tr><td>批量创建文件夹</td><td>一次性创建很多文件夹</td></tr>
+          <tr><td>批量创建文件</td><td>一次性创建很多空文件</td></tr>
+          <tr><td>批量重命名文件</td><td>批量给文件改名</td></tr>
+          <tr><td>批量重命名文件夹</td><td>批量给文件夹改名</td></tr>
+          <tr><td>批量修改扩展名</td><td>统一修改文件后缀（如 .jpeg → .jpg）</td></tr>
+          <tr><td>文本对比</td><td>对比两段文字的不同之处</td></tr>
+          <tr><td>文本去重</td><td>去掉重复的行</td></tr>
+          <tr><td>文本排序</td><td>把文字按顺序排列</td></tr>
+        </table>
+
+        <h3>三、文件操作类功能使用流程</h3>
+        <ol>
+          <li>在文本框中输入名称列表（每行一个），支持从 Excel 直接粘贴</li>
+          <li><strong>可选</strong>：填写"目标路径"指定操作目录（如 <code>D:\工作文件</code>），留空则在脚本所在目录执行</li>
+          <li>工具会自动去重、去空行，预览区显示处理结果</li>
+          <li>点击"生成脚本"，浏览器会下载一个 <code>.bat</code> 文件</li>
+          <li>双击运行 <code>.bat</code> 文件，操作完成后窗口会显示"操作完成！"</li>
+        </ol>
+
+        <h3>四、批量重命名的 4 种模式</h3>
+        <p><strong>直接映射</strong>：从 Excel 粘贴两列数据（A 列旧名，B 列新名），自动识别。</p>
+        <p><strong>查找替换</strong>：输入查找文本和替换文本，对所有文件名批量替换。</p>
+        <p><strong>添加前缀/后缀</strong>：统一添加前缀或后缀。文件模式下后缀会插入到扩展名之前。<br>
+        例：<code>报告.docx</code> + 前缀 <code>2026年_</code> + 后缀 <code>_终版</code> → <code>2026年_报告_终版.docx</code></p>
+        <p><strong>按序号编号</strong>：用递增序号替换文件名，可设置起始号、步长和位数。<br>
+        例：<code>照片A.jpg</code>、<code>照片B.jpg</code> → <code>001.jpg</code>、<code>002.jpg</code></p>
+
+        <h3>五、文本对比颜色说明</h3>
+        <ul>
+          <li><span style="background:#e6ffed;padding:2px 8px;border-radius:3px;">绿色</span> = 新增的行</li>
+          <li><span style="background:#ffeef0;padding:2px 8px;border-radius:3px;">红色</span> = 删除的行</li>
+          <li><span style="background:#fff8e1;padding:2px 8px;border-radius:3px;">黄色</span> = 修改的行（具体改了哪些字会加深高亮）</li>
+        </ul>
+        <p>勾选"仅显示差异行"可以隐藏相同的行。</p>
+
+        <h3>六、常见问题</h3>
+        <p><strong>Q：生成的脚本会覆盖已有的文件吗？</strong><br>
+        A：不会。创建类脚本会自动检查是否已存在，已存在的会跳过。</p>
+        <p><strong>Q：目标路径填错了怎么办？</strong><br>
+        A：脚本会先检查路径是否存在，不存在会提示错误并停止。</p>
+        <p><strong>Q：支持中文文件名吗？</strong><br>
+        A：完全支持，不会乱码。</p>
+        <p><strong>Q：每个功能都有"清空"按钮</strong>，点击后会重置所有输入和结果，方便开始新的操作。</p>
+
       </div>
     </div>
   </div>
