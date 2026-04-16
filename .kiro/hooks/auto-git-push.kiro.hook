@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "自动提交 Git",
+  "description": "每次 Agent 执行完成后，自动将所有变更提交并推送到 GitHub 仓库。",
+  "version": "1",
+  "when": {
+    "type": "agentStop"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "检查是否有未提交的文件变更（git status）。如果有变更，执行 git add -A，然后用简短的中文描述生成 commit message 并提交，最后 git push origin main。如果没有变更则跳过。"
+  }
+}
